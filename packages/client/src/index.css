@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    scrollbar-color: #3a3a50 #0a0a1a;
+    scrollbar-width: thin;
+  }
+
+  body {
+    @apply bg-[#06061a] text-mist-300 font-sans antialiased;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background-color: rgba(212, 168, 83, 0.3);
+    color: #e8c97a;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300
+           bg-gradient-to-r from-gold-dark via-gold to-gold-light
+           text-deep-900 shadow-lg shadow-gold/20
+           hover:shadow-gold/40 hover:brightness-110
+           active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-300
+           border border-mist-600 text-mist-300
+           bg-deep-800/60 backdrop-blur-sm
+           hover:bg-deep-700 hover:border-mist-500 hover:text-mist-200
+           active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-danger {
+    @apply px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-300
+           bg-gradient-to-r from-red-900 to-red-700
+           text-red-200 border border-red-600/30
+           hover:brightness-110 hover:shadow-lg hover:shadow-red-900/30
+           active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .card {
+    @apply rounded-xl border border-mist-700/50 bg-deep-800/70 backdrop-blur-sm
+           shadow-lg shadow-black/20 p-5;
+  }
+
+  .card-glow {
+    @apply card border-gold/20 shadow-gold/5;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg
+           bg-deep-900 border border-mist-700 text-mist-200
+           placeholder:text-mist-500
+           focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/30
+           transition-all duration-200;
+  }
+
+  .narrative-text {
+    @apply text-mist-200 leading-relaxed font-serif text-lg;
+  }
+
+  .page-container {
+    @apply min-h-screen w-full max-w-4xl mx-auto px-4 py-6;
+  }
+
+  .page-title {
+    @apply text-2xl font-bold text-gold-light font-serif tracking-wide;
+  }
+
+  .page-subtitle {
+    @apply text-sm text-mist-400 mt-1;
+  }
+}
+
+@layer utilities {
+  .text-shadow-glow {
+    text-shadow: 0 0 10px rgba(212, 168, 83, 0.3);
+  }
+
+  .bg-gradient-main {
+    background: linear-gradient(135deg, #06061a 0%, #0a0a2e 50%, #06061a 100%);
+  }
+
+  .bg-gradient-panel {
+    background: linear-gradient(180deg, rgba(15, 15, 42, 0.9) 0%, rgba(10, 10, 26, 0.95) 100%);
+  }
+}
