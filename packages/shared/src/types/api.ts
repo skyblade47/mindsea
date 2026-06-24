@@ -24,6 +24,8 @@ export interface CreateSkillResponse {
 export interface SelectSkillRequest {
   adventureId: string;
   variantIndex: number;
+  selectedVariant: SkillVariant;
+  timeCost: number;
 }
 
 export interface ProceedRequest {

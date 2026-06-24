@@ -24,8 +24,9 @@ const SettlementPage: React.FC = () => {
   const handleNewAdventure = async () => {
     const result = await doStart();
     if (result.success && result.data) {
-      setGameState(result.data);
-      setAdventureId(result.data.nodes[0]?.id ?? 'unknown');
+      const { adventureId: advId, state } = result.data;
+      setGameState(state);
+      setAdventureId(advId);
       navigateTo('adventure');
     }
   };

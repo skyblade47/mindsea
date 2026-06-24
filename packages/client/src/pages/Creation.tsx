@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { useGame } from '../hooks/useGame';
 import { useApi } from '../hooks/useApi';
-import { createSkill, selectSkill, retryCreate } from '../api/client';
+import { generateSkill, selectSkill, retrySkill } from '../api/client';
 import SkillCard from '../components/SkillCard';
 import type {
   FragmentQuality,
@@ -39,9 +39,9 @@ const Creation: React.FC = () => {
   const [constraints, setConstraints] = useState<string>('');
 
   // API 状态
-  const createApi = useApi(adventureId ? createSkill : (() => Promise.resolve({ success: false, error: 'No adventure' })) as any);
+  const createApi = useApi(adventureId ? generateSkill : (() => Promise.resolve({ success: false, error: 'No adventure' })) as any);
   const selectApi = useApi(adventureId ? selectSkill : (() => Promise.resolve({ success: false, error: 'No adventure' })) as any);
-  const retryApi = useApi(adventureId ? retryCreate : (() => Promise.resolve({ success: false, error: 'No adventure' })) as any);
+  const retryApi = useApi(adventureId ? retrySkill : (() => Promise.resolve({ success: false, error: 'No adventure' })) as any);
 
   const [variants, setVariants] = useState<SkillVariant[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -87,13 +87,14 @@ const Creation: React.FC = () => {
 
   const handleSelect = useCallback(async (variantIndex: number) => {
     if (!adventureId) return;
-    const result = await (selectApi.execute as (...args: any[]) => any)(adventureId, variantIndex);
+    const variant = variants[variantIndex];
+    const result = await (selectApi.execute as (...args: any[]) => any)(adventureId, variantIndex, variant, timeCost);
     if (result.success && result.data) {
-      setGameState(result.data);
+      setGameState(result.data.state);
       setSelectedIndex(variantIndex);
       setVariants([]);
     }
-  }, [adventureId, selectApi, setGameState]);
+  }, [adventureId, selectApi, setGameState, variants, timeCost]);
 
   const handleRetry = useCallback(async () => {
     if (!adventureId) return;
