@@ -16,6 +16,7 @@ export interface EnemySkill {
   description: string;
   power: number;
   type: 'physical' | 'magical' | 'special';
+  mpCost?: number;
 }
 
 export interface EnemyPhase {

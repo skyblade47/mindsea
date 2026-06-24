@@ -1,7 +1,6 @@
-import type { SkillVariant } from '@mindsea/shared';
+import type { SkillVariant, SkillOp } from '@mindsea/shared';
 
 export function sanitizeJson(text: string): string {
-  // Remove markdown code block fences if present
   let cleaned = text.trim();
   const jsonBlockMatch = cleaned.match(/```(?:json)?\s*\n?([\s\S]*?)```/);
   if (jsonBlockMatch) {
@@ -29,14 +28,20 @@ export function parseSkillVariants(rawResponse: string): Omit<SkillVariant, 'per
     if (!item.name || !item.description || !item.evaluation || typeof item.usageCount !== 'number') {
       throw new Error('技能变体缺少必要字段');
     }
+
+    const ops: SkillOp[] = Array.isArray(item.ops) ? item.ops : [];
+
     variants.push({
       id: item.id || `ai_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
-      name: item.name,
-      description: item.description,
+      name: String(item.name).slice(0, 50),
+      description: String(item.description).slice(0, 500),
       evaluation: item.evaluation,
-      usageCount: item.usageCount,
-      type: item.type || 'physical',
-      naturalLanguageBonus: item.naturalLanguageBonus ?? 1.0,
+      usageCount: Math.max(1, Math.floor(item.usageCount)),
+      type: item.type === 'magical' ? 'magical' : 'physical',
+      naturalLanguageBonus: typeof item.naturalLanguageBonus === 'number' ? item.naturalLanguageBonus : 1.0,
+      ops,
+      onCast: Array.isArray(item.onCast) ? item.onCast : undefined,
+      onHit: Array.isArray(item.onHit) ? item.onHit : undefined,
     });
   }
 
@@ -49,7 +54,6 @@ export function parseNarrative(rawResponse: string): string {
   try {
     parsed = JSON.parse(jsonStr);
   } catch {
-    // If not valid JSON, treat the raw string as the narrative text
     return rawResponse.trim();
   }
 

@@ -16,6 +16,13 @@ export type {
   SkillVariant,
   Skill,
   CreationResult,
+  SkillOp,
+  OpCode,
+  TargetType,
+  IfCondition,
+  ActiveModifier,
+  Comparator,
+  CondType,
 } from './types/skill';
 
 export type {

@@ -10,6 +10,7 @@ import {
   calculateTimeCost,
   calculateNaturalLanguageBonus,
 } from '@mindsea/shared';
+import { validateSkill } from './skill-validator';
 
 export class CreationEngine {
   private aiClient: IAIClient;
@@ -43,6 +44,8 @@ export class CreationEngine {
     const capacity = qualityMap[fragmentInput.quality] ?? 1;
 
     const variants: SkillVariant[] = rawVariants.map((raw) => {
+      const validation = validateSkill(raw, fragmentInput.quality);
+
       const dims = Object.values(raw.evaluation) as number[];
       const elemScore = capacity;
       const formScore = capacity;
@@ -57,9 +60,11 @@ export class CreationEngine {
         basePower: Math.round(basePower * natBonus),
         perUsePower: Math.round(perUsePower * natBonus),
         totalOutput: Math.round(totalOutput * natBonus),
-        mpPerUse: Math.round(mpPerUse * natBonus),
+        mpPerUse: Math.max(1, Math.round(mpPerUse * natBonus)),
         naturalLanguageBonus: natBonus,
-      };
+        ops: validation.sanitizedOps,
+        warnings: validation.warnings,
+      } as SkillVariant & { warnings?: string[] };
     });
 
     return variants;
