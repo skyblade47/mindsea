@@ -23,6 +23,7 @@ export interface SkillVariant {
   description: string;
   evaluation: SkillEvaluation;
   usageCount: number;
+  type: 'physical' | 'magical';
   basePower: number;
   perUsePower: number;
   totalOutput: number;

@@ -55,6 +55,7 @@ function buildVariant(
     description,
     evaluation,
     usageCount,
+    type: 'physical',
     basePower: Math.round(basePower * naturalLanguageBonus),
     perUsePower: Math.round(perUsePower * naturalLanguageBonus),
     totalOutput: Math.round(totalOutput * naturalLanguageBonus),
@@ -80,6 +81,7 @@ export class MockAIClient implements IAIClient {
         description: '凝聚火焰元素释放爆炸性能量',
         evaluation: makeEvaluation([8, 5, 2, 3, 4, 3]),
         usageCount: 2,
+        type: 'magical',
         naturalLanguageBonus: natBonus,
       },
       {
@@ -88,6 +90,7 @@ export class MockAIClient implements IAIClient {
         description: '用寒冰之力包裹全身形成护甲',
         evaluation: makeEvaluation([3, 4, 7, 4, 5, 6]),
         usageCount: 5,
+        type: 'magical',
         naturalLanguageBonus: natBonus,
       },
       {
@@ -96,6 +99,7 @@ export class MockAIClient implements IAIClient {
         description: '释放连锁闪电攻击多个目标',
         evaluation: makeEvaluation([6, 7, 2, 5, 5, 4]),
         usageCount: 4,
+        type: 'magical',
         naturalLanguageBonus: natBonus,
       },
     ];

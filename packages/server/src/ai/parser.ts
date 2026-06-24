@@ -35,6 +35,7 @@ export function parseSkillVariants(rawResponse: string): Omit<SkillVariant, 'per
       description: item.description,
       evaluation: item.evaluation,
       usageCount: item.usageCount,
+      type: item.type || 'physical',
       naturalLanguageBonus: item.naturalLanguageBonus ?? 1.0,
     });
   }
